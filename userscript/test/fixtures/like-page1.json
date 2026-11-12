@@ -1,0 +1,100 @@
+{
+  "_note": "NOT MEASURED. Invented content in the shape of the 喜欢 answer (aweme/v1/web/aweme/favorite/) as read from Hannah2227/douyin-favorite-MyLike: top-level status_code, aweme_list, has_more, max_cursor; digg_time from ZhangYukwiver/DouyinDataReview. status.is_delete follows Evil0ctal/Douyin_TikTok_Download_API.",
+  "status_code": 0,
+  "aweme_list": [
+    {
+      "aweme_id": "7300000000000000001",
+      "desc": "示例喜欢一号\n#话题 第二行不要",
+      "create_time": 1700000001,
+      "author": {
+        "uid": "88001",
+        "nickname": "示例作者甲"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-1"
+          ]
+        }
+      },
+      "images": null,
+      "digg_time": 1730000100
+    },
+    {
+      "aweme_id": "7300000000000000002",
+      "desc": "示例喜欢二号：图文",
+      "create_time": 1700000002,
+      "author": {
+        "uid": "88002",
+        "nickname": "示例作者乙"
+      },
+      "video": null,
+      "images": [
+        {
+          "url_list": [
+            "https://p3.example.invalid/img-2a"
+          ]
+        },
+        {
+          "url_list": [
+            "https://p3.example.invalid/img-2b"
+          ]
+        }
+      ],
+      "digg_time": 1730000200
+    },
+    {
+      "aweme_id": "7300000000000000003",
+      "desc": "示例喜欢三号（已删除）",
+      "create_time": 1700000003,
+      "author": {
+        "uid": "88003",
+        "nickname": "示例作者丙"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-3"
+          ]
+        }
+      },
+      "images": null,
+      "status": {
+        "is_delete": true,
+        "private_status": 0
+      }
+    },
+    {
+      "desc": "示例没有标识的一条",
+      "author": {
+        "nickname": "示例作者丁"
+      }
+    },
+    {
+      "aweme_id": "7300000000000000004",
+      "desc": "",
+      "create_time": 1700000004,
+      "author": {
+        "uid": "88004",
+        "nickname": "示例作者戊"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-4"
+          ]
+        }
+      },
+      "images": null,
+      "digg_time": 1730000400
+    }
+  ],
+  "has_more": 1,
+  "max_cursor": "1730000100000",
+  "extra": {
+    "logid": "invented-log-1"
+  }
+}

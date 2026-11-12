@@ -1,0 +1,24 @@
+{
+  "_note": "NOT MEASURED. Invented: a 收藏 answer whose entries are odd (no aweme_id, null, a non-integer id, an id inside an array, a bare id with no other field), to check the parser tolerates absent fields. Follows the listcollection shape from ZhangYukwiver/DouyinDataReview.",
+  "status_code": 0,
+  "aweme_list": [
+    {
+      "aweme_id": "7300000000000000090"
+    },
+    {
+      "desc": "示例缺标识甲"
+    },
+    null,
+    {
+      "aweme_id": 12.5,
+      "desc": "示例缺标识乙"
+    },
+    {
+      "aweme_id": [
+        "1"
+      ],
+      "desc": "示例缺标识丙"
+    }
+  ],
+  "has_more": 0
+}

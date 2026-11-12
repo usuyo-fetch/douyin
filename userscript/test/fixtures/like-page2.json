@@ -1,0 +1,47 @@
+{
+  "_note": "NOT MEASURED. Invented content; same 喜欢 answer wrapped in data as in the ZhangYukwiver/DouyinDataReview fixture (collector/fixtures/favorite.json). Entry 2 repeats page 1.",
+  "status_code": 0,
+  "data": {
+    "aweme_list": [
+      {
+        "aweme_id": "7300000000000000002",
+        "desc": "示例喜欢二号：图文",
+        "create_time": 1700000002,
+        "author": {
+          "uid": "88002",
+          "nickname": "示例作者乙"
+        },
+        "video": null,
+        "images": [
+          {
+            "url_list": [
+              "https://p3.example.invalid/img-2a"
+            ]
+          }
+        ],
+        "digg_time": 1730000200
+      },
+      {
+        "aweme_id": "7300000000000000005",
+        "desc": "示例喜欢五号",
+        "create_time": 1700000005,
+        "author": {
+          "uid": "88005",
+          "nickname": "示例作者己"
+        },
+        "video": {
+          "duration": 30000,
+          "cover": {
+            "url_list": [
+              "https://p3.example.invalid/cover-5"
+            ]
+          }
+        },
+        "images": null,
+        "digg_time": 1730000500000
+      }
+    ],
+    "has_more": false,
+    "max_cursor": "0"
+  }
+}

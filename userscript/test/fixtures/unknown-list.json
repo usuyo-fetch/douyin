@@ -1,0 +1,14 @@
+{
+  "_note": "NOT MEASURED. Invented: a list answer on a path the script does not know (an interface renamed by the site).",
+  "status_code": 0,
+  "aweme_list": [
+    {
+      "aweme_id": "7300000000000000078",
+      "desc": "示例不认得的路径",
+      "author": {
+        "nickname": "示例作者"
+      }
+    }
+  ],
+  "has_more": 0
+}

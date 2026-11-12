@@ -1,0 +1,27 @@
+{
+  "_note": "NOT MEASURED. Invented content; second folder, same shape as folder-items-1.json.",
+  "status_code": 0,
+  "aweme_list": [
+    {
+      "aweme_id": "7300000000000000022",
+      "desc": "示例夹内二十二号",
+      "create_time": 1700000022,
+      "author": {
+        "uid": "880022",
+        "nickname": "示例作者丑"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-22"
+          ]
+        }
+      },
+      "images": null,
+      "collect_time": 1731000220
+    }
+  ],
+  "has_more": 0,
+  "cursor": "0"
+}

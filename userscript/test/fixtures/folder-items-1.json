@@ -1,0 +1,46 @@
+{
+  "_note": "NOT MEASURED. Invented content in the shape of a folder's works (aweme/v1/web/collects/video/list/?collects_id=…) from Hannah2227/douyin-favorite-MyLike: aweme_list, has_more, cursor. Entry 12 also appears in the plain 收藏 list.",
+  "status_code": 0,
+  "aweme_list": [
+    {
+      "aweme_id": "7300000000000000012",
+      "desc": "示例收藏十二号",
+      "create_time": 1700000012,
+      "author": {
+        "uid": "880012",
+        "nickname": "示例作者辛"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-12"
+          ]
+        }
+      },
+      "images": null,
+      "collect_time": 1731000200
+    },
+    {
+      "aweme_id": "7300000000000000021",
+      "desc": "示例夹内二十一号",
+      "create_time": 1700000021,
+      "author": {
+        "uid": "880021",
+        "nickname": "示例作者子"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-21"
+          ]
+        }
+      },
+      "images": null,
+      "collect_time": 1731000210
+    }
+  ],
+  "has_more": 0,
+  "cursor": "0"
+}

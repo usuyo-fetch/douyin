@@ -1,0 +1,30 @@
+{
+  "_note": "NOT MEASURED. Invented content for an answer that is not one of the saved lists (a feed page): used to check what the diagnosis keeps. The keys and values starting with MARK are planted markers that must never show up in a diagnosis.",
+  "status_code": 0,
+  "aweme_list": [
+    {
+      "aweme_id": "7300000000000000031",
+      "desc": "示例推荐三十一号",
+      "create_time": 1700000031,
+      "author": {
+        "uid": "880031",
+        "nickname": "示例作者寅"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-31"
+          ]
+        }
+      },
+      "images": null
+    }
+  ],
+  "has_more": 1,
+  "cursor": "1",
+  "MARK48210937x1": {
+    "inner": "MARKVALUE_77aa"
+  },
+  "https://mark.example.invalid/v?t=MARK2": "MARKTOKEN_5d20"
+}

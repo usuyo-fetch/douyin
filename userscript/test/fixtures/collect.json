@@ -1,0 +1,108 @@
+{
+  "_note": "NOT MEASURED. Invented content in the shape of the 收藏 answer (aweme/v1/web/aweme/listcollection/) from Hannah2227/douyin-favorite-MyLike, ZhangYukwiver/DouyinDataReview (collector/fixtures/listcollection.json: status_code, aweme_list, has_more, cursor, collect_time) and Evil0ctal/Douyin_TikTok_Download_API (status.is_delete, status.private_status).",
+  "status_code": 0,
+  "aweme_list": [
+    {
+      "aweme_id": "7300000000000000011",
+      "desc": "示例收藏十一号",
+      "create_time": 1700000011,
+      "author": {
+        "uid": "880011",
+        "nickname": "示例作者庚"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-11"
+          ]
+        }
+      },
+      "images": null,
+      "collect_time": 1731000100
+    },
+    {
+      "aweme_id": "7300000000000000012",
+      "desc": "示例收藏十二号",
+      "create_time": 1700000012,
+      "author": {
+        "uid": "880012",
+        "nickname": "示例作者辛"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-12"
+          ]
+        }
+      },
+      "images": null,
+      "collect_time": 1731000200
+    },
+    {
+      "aweme_id": "7300000000000000013",
+      "desc": "示例收藏十三号（仅自己可见）",
+      "create_time": 1700000013,
+      "author": {
+        "uid": "880013",
+        "nickname": "示例作者壬"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-13"
+          ]
+        }
+      },
+      "images": null,
+      "status": {
+        "private_status": 2
+      }
+    },
+    {
+      "aweme_id": "7300000000000000014",
+      "desc": "示例收藏十四号（已删除）",
+      "create_time": 1700000014,
+      "author": {
+        "uid": "880014",
+        "nickname": "示例作者癸"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-14"
+          ]
+        }
+      },
+      "images": null,
+      "status": {
+        "is_delete": true,
+        "private_status": 0
+      }
+    },
+    {
+      "aweme_id": "7300000000000000001",
+      "desc": "示例喜欢一号\n#话题 第二行不要",
+      "create_time": 1700000001,
+      "author": {
+        "uid": "88001",
+        "nickname": "示例作者甲"
+      },
+      "video": {
+        "duration": 30000,
+        "cover": {
+          "url_list": [
+            "https://p3.example.invalid/cover-1"
+          ]
+        }
+      },
+      "images": null,
+      "collect_time": 1731000300
+    }
+  ],
+  "has_more": 0,
+  "cursor": "0"
+}

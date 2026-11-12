@@ -1,0 +1,5 @@
+{
+  "_note": "NOT MEASURED. Invented: the envelope the site answers with when the session is rejected (status_code 8 is read as 'not logged in' in the DataReview and MyLike notes).",
+  "status_code": 8,
+  "status_msg": "示例登录失效提示"
+}

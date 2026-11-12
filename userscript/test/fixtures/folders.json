@@ -1,0 +1,25 @@
+{
+  "_note": "NOT MEASURED. Invented content in the shape of the 收藏夹 answer (aweme/v1/web/collects/list/) from Hannah2227/douyin-favorite-MyLike: collects_list with collects_id_str, collects_name, status, total_number; has_more, cursor.",
+  "status_code": 0,
+  "collects_list": [
+    {
+      "collects_id": 7100000000000000001,
+      "collects_id_str": "7100000000000000001",
+      "collects_name": "示例收藏夹甲",
+      "status": 1,
+      "total_number": 2
+    },
+    {
+      "collects_id": 7100000000000000002,
+      "collects_id_str": "7100000000000000002",
+      "collects_name": "示例收藏夹乙",
+      "status": 0,
+      "total_number": 1
+    },
+    {
+      "collects_name": "示例没有标识的收藏夹"
+    }
+  ],
+  "has_more": 0,
+  "cursor": "0"
+}
