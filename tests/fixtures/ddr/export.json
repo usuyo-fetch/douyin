@@ -1,0 +1,96 @@
+{
+  "_fixture": "hand-written, invented content, NOT MEASURED; see NOTES.md",
+  "schemaVersion": 2,
+  "exportedAt": "2026-11-12T10:30:00.000Z",
+  "source": "collector",
+  "parts": ["watch_history", "liked_videos", "favorite_videos"],
+  "updatedAt": "2026-11-12T10:00:00.000Z",
+  "records": {
+    "watch_history": [
+      {
+        "id": "watch_history:7431234567890123456:2026-10-20T09:00:00.000Z",
+        "title": "手冲咖啡：三段式注水",
+        "author": "咖啡日常",
+        "occurredAt": "2026-10-20T09:00:00.000Z",
+        "url": "https://www.douyin.com/video/7431234567890123456",
+        "videoId": "7431234567890123456",
+        "occurredAtSource": "platform_action",
+        "publishedAt": "2026-10-01T12:00:00.000Z",
+        "mediaType": "video"
+      },
+      {
+        "id": "watch_history:7431234567890123456:2026-10-25T21:30:00.000Z",
+        "title": "手冲咖啡：三段式注水",
+        "author": "咖啡日常",
+        "occurredAt": "2026-10-25T21:30:00.000Z",
+        "url": "https://www.douyin.com/video/7431234567890123456",
+        "videoId": "7431234567890123456",
+        "occurredAtSource": "platform_action",
+        "publishedAt": "2026-10-01T12:00:00.000Z"
+      },
+      {
+        "id": "watch_history:7431234567890123460",
+        "title": "未命名视频",
+        "author": null,
+        "occurredAt": null,
+        "url": "https://www.douyin.com/video/7431234567890123460",
+        "videoId": "7431234567890123460",
+        "occurredAtSource": "unknown"
+      },
+      {
+        "id": "watch_history:7431234567890123461:2026-10-26T08:00:00.000Z",
+        "title": "官方档案里的一条",
+        "author": "路人乙",
+        "occurredAt": "2026-10-26T08:00:00.000Z",
+        "videoId": "7431234567890123461",
+        "occurredAtSource": "archive_action"
+      },
+      {
+        "id": "watch_history:live-88",
+        "title": "一场直播",
+        "author": "主播",
+        "occurredAt": "2026-10-27T08:00:00.000Z",
+        "url": "https://live.douyin.com/88",
+        "videoId": "live-88",
+        "occurredAtSource": "platform_action",
+        "mediaType": "live"
+      }
+    ],
+    "liked_videos": [
+      {
+        "id": "liked_videos:7431234567890123457",
+        "title": "磨豆子的粗细\n第二行不要",
+        "author": "咖啡人",
+        "occurredAt": "2026-09-01T00:00:00.000Z",
+        "url": "https://www.douyin.com/video/7431234567890123457",
+        "videoId": "7431234567890123457",
+        "occurredAtSource": "platform_action",
+        "publishedAt": "2026-10-15T08:30:00.000Z",
+        "folder": "咖啡"
+      },
+      {
+        "id": "liked_videos:7431234567890123456",
+        "title": "手冲咖啡：三段式注水",
+        "author": "咖啡日常",
+        "occurredAt": null,
+        "url": "https://www.douyin.com/video/7431234567890123456",
+        "videoId": "7431234567890123456",
+        "occurredAtSource": "unknown"
+      }
+    ],
+    "favorite_videos": [
+      {
+        "id": "favorite_videos:7431234567890123458",
+        "title": "一篇图文",
+        "author": "路人甲",
+        "occurredAt": "2026-08-01T00:00:00.000Z",
+        "videoId": "7431234567890123458",
+        "occurredAtSource": "platform_action",
+        "mediaType": "image"
+      }
+    ]
+  },
+  "chatConversations": [],
+  "chatMessages": [],
+  "warnings": []
+}

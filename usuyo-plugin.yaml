@@ -3,6 +3,7 @@
 # （client-hook 那行在另一个组织，不列）。
 # share-page 读分享页里的数据，2026-11-12 量到分享页不再带作品数据，见 src/page.rs 顶部；
 # h5-token 照 H5 页自己的做法，用分享页算出的令牌调 iteminfo，见 src/h5.rs 顶部（private-api，默认关）。
+# ddr-import 读 DouyinDataReview「导出数据」存的 JSON，只列链接、不联网，见 src/ddr.rs 顶部。
 protocol: 1
 id: usuyo-fetch/douyin
 kind: fetch
@@ -74,19 +75,17 @@ methods:
       source: {label: "调研 06 §16.2", url: "https://github.com/usuyo/usuyo/blob/main/docs/research/06-platform-access-and-account-risk.md#162-issue-里的账号问题"}
   - id: ddr-import
     name: DouyinDataReview 的导出（喜欢、收藏、观看历史）
-    built: false
     access: official-export
     login: none
     account: none
     risk:
-      text: 清单由 DouyinDataReview 用你的登录会话发签名请求取得，取清单那一步在它里面
+      text: 清单由 DouyinDataReview 用你的登录会话发签名请求取得，取清单那一步在它里面；这种方法只读你交来的导出文件，不向任何平台发请求
       source: {label: DouyinDataReview, url: "https://github.com/ZhangYukwiver/DouyinDataReview"}
     capabilities:
       list:
-        sources:
-          - {source: "douyin:likes", title: 喜欢, action: like}
-          - {source: "douyin:favorites", title: 收藏, action: favorite}
-          - {source: "douyin:history", title: 观看历史, action: view}
+        order: unordered
+        files: ["抖音数据_*.json"]
+        reads: DouyinDataReview 在「设置 → 数据」里「导出数据」存下的 JSON，里面的观看历史、喜欢、收藏；清单由 DouyinDataReview 用你的登录会话发签名请求取得
   - id: iphone
     name: iPhone 镜像
     built: false

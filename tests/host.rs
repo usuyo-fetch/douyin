@@ -187,9 +187,14 @@ async fn the_manifest_loads_and_matches_douyin_links() {
         (Access::BrowserSession, Account::OwnBrowser)
     );
     assert!(userscript.built && userscript.delivers.is_some());
+    let ddr = spec.method("ddr-import").unwrap();
+    assert!(ddr.built && ddr.capabilities.list.is_some());
+    assert_eq!(
+        (ddr.access, ddr.login, ddr.account),
+        (Access::OfficialExport, Login::None, Account::None)
+    );
     for (id, access, account) in [
         ("export", Access::OfficialExport, Account::None),
-        ("ddr-import", Access::OfficialExport, Account::None),
         ("iphone", Access::VisionUi, Account::OwnPhone),
         ("android", Access::VisionUi, Account::OwnPhone),
     ] {
