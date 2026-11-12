@@ -1,0 +1,93 @@
+# 抖音获取插件：按一条分享链接取单个作品（视频、图文），不用账号；喜欢、收藏由你浏览器里的脚本交来。
+# 几种方法各列一项（usuyo 协议 §2.3.1），没做的也列；行和 usuyo 仓库 docs/platforms/routes.md 第 7 节一一对应
+# （client-hook 那行在另一个组织，不列）。
+# share-page 读分享页里的数据，2026-11-12 量到分享页不再带作品数据，见 src/page.rs 顶部。
+protocol: 1
+id: usuyo-fetch/douyin
+kind: fetch
+name: 抖音
+description: 按分享链接取单个作品的文字、作者、计数、音乐、封面、图片和视频（不用账号）；喜欢和收藏由你浏览器里的脚本交来
+version: 0.1.0
+license: MIT
+maintainers: [Fldicoahkiin]
+upstream:
+  - name: parse-video（抖音分享页的解析）
+    url: https://github.com/wujunwei928/parse-video
+    license: MIT
+  - name: ParseHub（字段名）
+    url: https://github.com/z-mio/ParseHub
+    license: MIT
+platforms: [douyin]
+match:
+  - "v.douyin.com/*"
+  - "www.douyin.com/video/*"
+  - "www.douyin.com/note/*"
+  - "www.iesdouyin.com/share/video/*"
+methods:
+  - id: share-page
+    name: 分享页
+    access: public-web
+    login: none
+    account: none
+    risk:
+      text: 2026-08-08 起分享页不再内嵌作品数据，这种方法取不到（2026-11-12 实测同样）
+      source: {label: "parse-video #98", url: "https://github.com/wujunwei928/parse-video/issues/98"}
+    capabilities:
+      fetch:
+        timeout: 30m
+        outputs: [text, images, media:video, meta]
+  - id: export
+    name: 个人信息下载（喜欢、收藏）
+    built: false
+    access: official-export
+    login: none
+    account: none
+  - id: userscript
+    name: 浏览器脚本（喜欢、收藏）
+    access: browser-session
+    login: required
+    account: own-browser
+    delivers: links
+    risk:
+      text: 限制多是几小时，没有封号报告；这个脚本还没在真浏览器里跑过
+      source: {label: "调研 06 §16.2", url: "https://github.com/usuyo/usuyo/blob/main/docs/research/06-platform-access-and-account-risk.md#162-issue-里的账号问题"}
+  - id: ddr-import
+    name: DouyinDataReview 的导出（喜欢、收藏、观看历史）
+    built: false
+    access: official-export
+    login: none
+    account: none
+    risk:
+      text: 清单由 DouyinDataReview 用你的登录会话发签名请求取得，取清单那一步在它里面
+      source: {label: DouyinDataReview, url: "https://github.com/ZhangYukwiver/DouyinDataReview"}
+  - id: iphone
+    name: iPhone 镜像
+    built: false
+    access: vision-ui
+    login: required
+    account: own-phone
+    interaction: foreground
+  - id: android
+    name: 安卓手机
+    built: false
+    access: vision-ui
+    login: required
+    account: own-phone
+    interaction: foreground
+pacing:
+  douyin: {batch: true, interval: 8s, daily: 300}
+permissions:
+  fs:
+    write: ["${OUT}"]
+  network:
+    mode: allowlist
+    hosts:
+      - "v.douyin.com"
+      - "www.iesdouyin.com"
+      - "*.snssdk.com"
+      - "*.douyinvod.com"
+      - "*.douyinpic.com"
+      - "*.zjcdn.com"
+      - "*.byteimg.com"
+run:
+  command: ["${PLUGIN_DIR}/usuyo-fetch-douyin"]
