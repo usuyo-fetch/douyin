@@ -83,6 +83,7 @@ fn each_call_goes_to_its_method() {
     // 方法和调用对不上的回 invalid-args，不发请求
     for args in [
         &["sources", "--method", "share-page"][..],
+        &["sources", "--method", "h5-token"][..],
         &["list", "douyin:likes", "--method", "userscript"][..],
         &[
             "fetch",
@@ -157,6 +158,7 @@ async fn the_manifest_loads_and_matches_douyin_links() {
         ids,
         [
             "share-page",
+            "h5-token",
             "export",
             "userscript",
             "ddr-import",
@@ -170,6 +172,14 @@ async fn the_manifest_loads_and_matches_douyin_links() {
         (Access::PublicWeb, Login::None, Account::None)
     );
     assert!(share.built && share.sites.is_empty() && share.capabilities.fetch.is_some());
+    // 带页面算出的参数，层级是 private-api：宿主默认关着
+    let h5 = spec.method("h5-token").unwrap();
+    assert_eq!(
+        (h5.access, h5.login, h5.account),
+        (Access::PrivateApi, Login::None, Account::None)
+    );
+    assert!(h5.built && h5.sites.is_empty() && h5.capabilities.fetch.is_some());
+    assert!(!h5.on_by_default() && share.on_by_default());
     let userscript = spec.method("userscript").unwrap();
     assert_eq!(
         (userscript.access, userscript.account),

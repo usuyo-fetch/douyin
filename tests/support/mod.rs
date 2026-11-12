@@ -8,6 +8,7 @@ use std::sync::{Arc, Mutex};
 #[derive(Debug, Clone)]
 pub struct Request {
     pub path: String,
+    pub query: BTreeMap<String, String>,
     pub headers: BTreeMap<String, String>,
 }
 
@@ -91,6 +92,10 @@ impl Server {
                     let parsed = url::Url::parse(&format!("http://x{target}")).unwrap();
                     let request = Request {
                         path: parsed.path().to_owned(),
+                        query: parsed
+                            .query_pairs()
+                            .map(|(k, v)| (k.into(), v.into()))
+                            .collect(),
                         headers,
                     };
                     log.lock().unwrap().push(request.clone());

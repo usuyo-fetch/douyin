@@ -20,7 +20,7 @@ fn main() -> ExitCode {
     }
 }
 
-/// 分派到清单里的方法：只有 `share-page` 在插件进程里跑；`userscript` 在浏览器里交链接，
+/// 分派到清单里的方法：`share-page`、`h5-token` 在插件进程里跑；`userscript` 在浏览器里交链接，
 /// 其余几种还没做。
 fn run(args: &[String]) -> anyhow::Result<u8> {
     let Some(call) = Call::parse(args) else {
@@ -37,6 +37,12 @@ fn run(args: &[String]) -> anyhow::Result<u8> {
                 input, out, want, ..
             },
         ) => emit(share::fetch(&api, &input, &out, want.as_deref())),
+        (
+            Some("h5-token"),
+            Call::Fetch {
+                input, out, want, ..
+            },
+        ) => emit(share::fetch_h5(&api, &input, &out, want.as_deref())),
         // 没有要查的本机程序，也不向平台发请求
         (_, Call::Health { .. }) => emit(Ok(FetchHealth::new(env!("CARGO_PKG_VERSION")))),
         (method, _) => emit::<()>(Err(CallFailure::new(

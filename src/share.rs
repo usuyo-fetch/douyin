@@ -1,8 +1,8 @@
-//! 方法 `share-page`：一条链接取一个作品（协议 §3.6、§3.7）。不带账号：这里的请求都不带 cookie，
+//! 方法 `share-page` 和 `h5-token`：一条链接取一个作品（协议 §3.6、§3.7）。不带账号：这里的请求都不带 cookie，
 //! 也不读宿主交来的凭据。
 //!
 //! 输出目录里的文件名都是固定的，不用网络上来的名字：
-//! `share-data.json`（分享页里 `_ROUTER_DATA` 的原文）、`meta.json`、`images/cover.<ext>`、
+//! `share-data.json`（分享页里 `_ROUTER_DATA` 的原文）或 `item-info.json`（`h5-token` 里接口的回答原文）、`meta.json`、`images/cover.<ext>`、
 //! `images/001.<ext>`…（图文的图片）、`media/video.mp4`。
 //!
 //! 视频文件用的地址：页面给的 `video.play_addr.url_list[0]`，原样请求，不改写（parse-video 把其中的
@@ -20,6 +20,7 @@ use usuyo_plugin_kit::protocol::{
 
 use crate::api::{ApiError, Douyin, blocked, step};
 use crate::canonical::{identity, locate};
+use crate::h5;
 use crate::page::{self, PageError, Post};
 
 /// 本方法能给的输出，和清单里的 `outputs` 一致。
@@ -30,6 +31,10 @@ pub const OUTPUTS: [OutputKind; 4] = [
     OutputKind::Meta,
 ];
 
+const SHARE_HINT: &str =
+    "抖音的分享页现在不带作品数据（2026-08 起），这种方法暂时取不到；可以换别的方法";
+const H5_HINT: &str =
+    "这种方法依赖抖音页面算出来的参数，平台改了算法或拒绝了令牌就会失效；可以换别的方法";
 const IMAGE_BYTES: u64 = 20 << 20;
 const IMAGE_TIMEOUT: Duration = Duration::from_secs(30);
 const VIDEO_BYTES: u64 = 2 << 30;
@@ -38,11 +43,78 @@ const VIDEO_TIMEOUT: Duration = Duration::from_secs(20 * 60);
 const MAX_IMAGES: usize = 100;
 const TITLE_CHARS: usize = 100;
 
+/// 方法 `share-page`：读分享页里内嵌的数据。
 pub fn fetch(
     api: &Douyin,
     input: &str,
     out: &Path,
     want: Option<&[OutputKind]>,
+) -> Result<FetchOutput, CallFailure> {
+    deliver(api, input, out, want, Source::SharePage)
+}
+
+/// 方法 `h5-token`：照 H5 页自己的做法，用分享页算出的参数调 `iteminfo`。
+pub fn fetch_h5(
+    api: &Douyin,
+    input: &str,
+    out: &Path,
+    want: Option<&[OutputKind]>,
+) -> Result<FetchOutput, CallFailure> {
+    deliver(api, input, out, want, Source::H5Token)
+}
+
+/// 作品数据从哪里来；两种方法拿到的条目一样，后面的输出照同一套做。
+#[derive(Clone, Copy)]
+enum Source {
+    SharePage,
+    H5Token,
+}
+
+impl Source {
+    fn access(self) -> Access {
+        match self {
+            Source::SharePage => Access::PublicWeb,
+            Source::H5Token => Access::PrivateApi,
+        }
+    }
+
+    /// 平台原样的数据存成这个文件。
+    fn raw_file(self) -> &'static str {
+        match self {
+            Source::SharePage => "share-data.json",
+            Source::H5Token => "item-info.json",
+        }
+    }
+}
+
+fn load(api: &Douyin, id: &str, source: Source) -> Result<page::Parsed, CallFailure> {
+    let html = api.share_page(id)?;
+    match source {
+        Source::SharePage => page::parse(&html, id).map_err(|e| page_failure(e, SHARE_HINT)),
+        Source::H5Token => {
+            let context = h5::context(&html).map_err(|what| {
+                page_failure(
+                    PageError::Missing {
+                        what,
+                        detail: page::visible_text(&html),
+                    },
+                    H5_HINT,
+                )
+            })?;
+            let query = context.query(id);
+            let params: Vec<(&str, &str)> = query.iter().map(|(k, v)| (*k, v.as_str())).collect();
+            let answer = api.item_info(id, &params)?;
+            h5::parse_answer(&answer, id).map_err(|e| page_failure(e, H5_HINT))
+        }
+    }
+}
+
+fn deliver(
+    api: &Douyin,
+    input: &str,
+    out: &Path,
+    want: Option<&[OutputKind]>,
+    source: Source,
 ) -> Result<FetchOutput, CallFailure> {
     let wanted: BTreeSet<OutputKind> =
         want.map_or_else(|| OUTPUTS.into(), |w| w.iter().copied().collect());
@@ -58,10 +130,9 @@ pub fn fetch(
     let identity = identity(&id)?;
 
     let fetched_at = Rfc3339::from_timestamp(jiff::Timestamp::now());
-    let html = api.share_page(&id)?;
-    let parsed = page::parse(&html, &id).map_err(page_failure)?;
+    let parsed = load(api, &id, source)?;
     let post = parsed.post;
-    write(out, "share-data.json", parsed.raw.as_bytes())?;
+    write(out, source.raw_file(), parsed.raw.as_bytes())?;
 
     let mut output = FetchOutput {
         identity: Some(identity),
@@ -95,7 +166,7 @@ pub fn fetch(
         missing_reason: None,
         evidence: Evidence {
             fetched_at,
-            access: Access::PublicWeb,
+            access: source.access(),
             site: None,
             upstream: None,
             status: Some(200),
@@ -176,7 +247,7 @@ pub fn fetch(
 
 /// 分享页读不出作品时的错误码：看不到的 → `not-found`；像验证页 → `blocked`；
 /// 没有数据块、没有作品 → `upstream-changed`（量到的情况，见 `page.rs` 顶部）。
-fn page_failure(err: PageError) -> CallFailure {
+fn page_failure(err: PageError, hint: &str) -> CallFailure {
     match err {
         PageError::Unavailable {
             reason,
@@ -191,10 +262,7 @@ fn page_failure(err: PageError) -> CallFailure {
             blocked("the share page looks like a verification page".into()).with_detail(&detail)
         }
         PageError::Missing { what, detail } => CallFailure {
-            hint: Some(
-                "抖音的分享页现在不带作品数据（2026-08 起），这种方法暂时取不到；可以换别的方法"
-                    .into(),
-            ),
+            hint: Some(hint.into()),
             ..CallFailure::new(ErrorCode::UpstreamChanged, what)
         }
         .with_detail(&detail),

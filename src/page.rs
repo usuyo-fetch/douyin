@@ -137,12 +137,13 @@ pub fn parse(html: &str, id: &str) -> Result<Parsed, PageError> {
         });
     }
     Ok(Parsed {
-        post: post(item),
+        post: from_item(item),
         raw: raw.to_owned(),
     })
 }
 
-fn unavailable(entry: &Value, detail: String) -> PageError {
+/// `filter_list` 里的一项：分享页（和 H5 接口）说这条看不到。
+pub fn unavailable(entry: &Value, detail: String) -> PageError {
     let reason = text_of(&entry["filter_reason"]);
     let message = text_of(&entry["detail_msg"]);
     let both = format!("{reason} {message}").to_lowercase();
@@ -165,7 +166,8 @@ fn unavailable(entry: &Value, detail: String) -> PageError {
     }
 }
 
-fn post(item: &Value) -> Post {
+/// 作品条目（`item_list[0]`）里的字段；分享页和 H5 接口的条目形状相同。
+pub fn from_item(item: &Value) -> Post {
     let images: Vec<String> = item["images"]
         .as_array()
         .into_iter()
@@ -252,7 +254,7 @@ fn pick_url(list: &Value) -> Option<String> {
         .map(|u| (*u).to_owned())
 }
 
-fn text_of(v: &Value) -> String {
+pub fn text_of(v: &Value) -> String {
     match v {
         Value::String(s) => s.clone(),
         Value::Number(n) => n.to_string(),
@@ -275,7 +277,7 @@ fn router_data(html: &str) -> Option<(&str, Value)> {
 }
 
 /// 失败日志里的原文开头：`CallFailure::with_detail` 还会再截到 4096 字节。
-fn head(text: &str) -> &str {
+pub fn head(text: &str) -> &str {
     let mut end = text.len().min(3000);
     while !text.is_char_boundary(end) {
         end -= 1;

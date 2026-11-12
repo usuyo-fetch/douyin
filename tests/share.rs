@@ -304,6 +304,7 @@ fn a_video_post_gives_text_author_counts_cover_and_the_video_file() {
         .find(|r| r.path.starts_with("/share/video/"))
         .unwrap();
     assert!(share.headers["user-agent"].contains("iPhone"));
+    assert!(share.query.is_empty());
     assert!(requests.iter().all(|r| r.cookie().is_none()));
     // 页面给了两个视频地址，只用第一个，地址原样（参数不改）
     assert!(!paths(&server).contains(&"/play/v2".to_owned()));

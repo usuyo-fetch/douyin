@@ -3,6 +3,7 @@
 
 pub mod api;
 pub mod canonical;
+pub mod h5;
 pub mod ids;
 pub mod page;
 pub mod share;

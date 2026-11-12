@@ -1,18 +1,22 @@
 # 抖音获取插件：按一条分享链接取单个作品（视频、图文），不用账号；喜欢、收藏由你浏览器里的脚本交来。
 # 几种方法各列一项（usuyo 协议 §2.3.1），没做的也列；行和 usuyo 仓库 docs/platforms/routes.md 第 7 节一一对应
 # （client-hook 那行在另一个组织，不列）。
-# share-page 读分享页里的数据，2026-11-12 量到分享页不再带作品数据，见 src/page.rs 顶部。
+# share-page 读分享页里的数据，2026-11-12 量到分享页不再带作品数据，见 src/page.rs 顶部；
+# h5-token 照 H5 页自己的做法，用分享页算出的令牌调 iteminfo，见 src/h5.rs 顶部（private-api，默认关）。
 protocol: 1
 id: usuyo-fetch/douyin
 kind: fetch
 name: 抖音
-description: 按分享链接取单个作品的文字、作者、计数、音乐、封面、图片和视频（不用账号）；喜欢和收藏由你浏览器里的脚本交来
+description: 按分享链接取单个作品的文字、作者、计数、音乐、封面、图片和视频（不用账号，两种方法）；喜欢和收藏由你浏览器里的脚本交来
 version: 0.1.0
 license: MIT
 maintainers: [Fldicoahkiin]
 upstream:
   - name: parse-video（抖音分享页的解析）
     url: https://github.com/wujunwei928/parse-video
+    license: MIT
+  - name: parse-video PR #106（H5 页的令牌）
+    url: https://github.com/wujunwei928/parse-video/pull/106
     license: MIT
   - name: ParseHub（字段名）
     url: https://github.com/z-mio/ParseHub
@@ -32,6 +36,18 @@ methods:
     risk:
       text: 2026-08-08 起分享页不再内嵌作品数据，这种方法取不到（2026-11-12 实测同样）
       source: {label: "parse-video #98", url: "https://github.com/wujunwei928/parse-video/issues/98"}
+    capabilities:
+      fetch:
+        timeout: 30m
+        outputs: [text, images, media:video, meta]
+  - id: h5-token
+    name: H5 页的令牌
+    access: private-api
+    login: none
+    account: none
+    risk:
+      text: 带的参数是分享页算出来的一次性令牌，加密方式由平台定，改了就失效；没有账号相关的报告
+      source: {label: "parse-video PR #106", url: "https://github.com/wujunwei928/parse-video/pull/106"}
     capabilities:
       fetch:
         timeout: 30m

@@ -295,6 +295,34 @@ impl Douyin {
         Ok(String::from_utf8_lossy(&body).into_owned())
     }
 
+    /// H5 页自己调的 `web/api/v2/aweme/iteminfo/`：`params` 是页面算出的参数。回答的原文。
+    /// 不带 cookie，不跟跳转，状态不是 2xx 就报错，带着回答的开头。
+    pub fn item_info(&self, id: &str, params: &[(&str, &str)]) -> Result<Vec<u8>, ApiError> {
+        let mut url = self
+            .endpoints
+            .share_base
+            .join("web/api/v2/aweme/iteminfo/")
+            .map_err(|e| ApiError::Shape(format!("bad item info URL: {e}")))?;
+        url.query_pairs_mut().extend_pairs(params);
+        let referer = format!("https://{SHARE_HOST}/share/video/{id}");
+        step("作品详情");
+        let mut response = self
+            .endpoints
+            .client(USER_AGENT, &[self.endpoints.share_host()])
+            .get(&url)
+            .header("Referer", &referer)
+            .header("Accept", "application/json, text/plain, */*")
+            .timeout(PAGE_TIMEOUT)
+            .send()
+            .map_err(transport)?;
+        if !(200..300).contains(&response.status()) {
+            let e = status_error(&response);
+            let head = response.read_to_vec(4096).unwrap_or_default();
+            return Err(e.answered(&head));
+        }
+        response.read_to_vec(PAGE_BYTES).map_err(transport)
+    }
+
     /// 展开短链：一跳一跳读 `Location`，只请求短链主机。落到作品页（或别的主机）就停，不请求作品页。
     /// 跳转只许落在抖音自己的主机上：别的主机原样交回调用方，由它当作「不是抖音的链接」。
     pub fn expand_short_link(&self, start: Url) -> Result<Url, ApiError> {
