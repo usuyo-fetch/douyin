@@ -58,6 +58,11 @@ methods:
     access: official-export
     login: none
     account: none
+    capabilities:
+      list:
+        sources:
+          - {source: "douyin:likes", title: 喜欢, action: like}
+          - {source: "douyin:favorites", title: 收藏, action: favorite}
   - id: userscript
     name: 浏览器脚本（喜欢、收藏）
     access: browser-session
@@ -76,6 +81,12 @@ methods:
     risk:
       text: 清单由 DouyinDataReview 用你的登录会话发签名请求取得，取清单那一步在它里面
       source: {label: DouyinDataReview, url: "https://github.com/ZhangYukwiver/DouyinDataReview"}
+    capabilities:
+      list:
+        sources:
+          - {source: "douyin:likes", title: 喜欢, action: like}
+          - {source: "douyin:favorites", title: 收藏, action: favorite}
+          - {source: "douyin:history", title: 观看历史, action: view}
   - id: iphone
     name: iPhone 镜像
     built: false
@@ -83,6 +94,12 @@ methods:
     login: required
     account: own-phone
     interaction: foreground
+    drives: iphone
+    capabilities:
+      list:
+        sources:
+          - {source: "douyin:likes", title: 喜欢, action: like}
+          - {source: "douyin:favorites", title: 收藏, action: favorite}
   - id: android
     name: 安卓手机
     built: false
@@ -90,6 +107,12 @@ methods:
     login: required
     account: own-phone
     interaction: foreground
+    drives: android
+    capabilities:
+      list:
+        sources:
+          - {source: "douyin:likes", title: 喜欢, action: like}
+          - {source: "douyin:favorites", title: 收藏, action: favorite}
 pacing:
   douyin: {batch: true, interval: 8s, daily: 300}
 permissions:
