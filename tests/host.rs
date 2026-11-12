@@ -152,7 +152,7 @@ async fn the_manifest_loads_and_matches_douyin_links() {
     assert_eq!(plugin.id().as_str(), "usuyo-fetch/douyin");
     assert_eq!(plugin.header.version.to_string(), env!("CARGO_PKG_VERSION"));
     let spec = &plugin.spec;
-    // routes.md 第 7 节的每一行（client-hook 那行在另一个组织），顺序照清单
+    // routes.md 第 7 节的每一行（client-hook 那行在另一个组织），加上 mediacrawler，顺序照清单
     let ids: Vec<&str> = spec.methods.iter().map(|m| m.id.as_str()).collect();
     assert_eq!(
         ids,
@@ -163,7 +163,8 @@ async fn the_manifest_loads_and_matches_douyin_links() {
             "userscript",
             "ddr-import",
             "iphone",
-            "android"
+            "android",
+            "mediacrawler"
         ]
     );
     let share = spec.method("share-page").unwrap();
