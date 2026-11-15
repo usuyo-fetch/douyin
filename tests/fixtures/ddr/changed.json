@@ -1,7 +1,0 @@
-{
-  "_fixture": "hand-written, invented content, NOT MEASURED; see NOTES.md",
-  "schemaVersion": 2,
-  "records": {
-    "liked_videos": [{"id": "x", "title": "字段改名了", "aweme": "abc"}, {"id": "y", "videoId": "not-a-number"}]
-  }
-}

@@ -5,7 +5,7 @@ use std::process::ExitCode;
 use anyhow::Context;
 use serde::Serialize;
 use usuyo_fetch_douyin::api::{Douyin, Endpoints};
-use usuyo_fetch_douyin::{canonical, ddr, mediacrawler, share};
+use usuyo_fetch_douyin::{canonical, share};
 use usuyo_plugin_kit::fetch::{Call, USAGE};
 use usuyo_plugin_kit::protocol::{CallFailure, Envelope, ErrorCode, FetchHealth};
 
@@ -43,12 +43,6 @@ fn run(args: &[String]) -> anyhow::Result<u8> {
                 input, out, want, ..
             },
         ) => emit(share::fetch_h5(&api, &input, &out, want.as_deref())),
-        (Some("ddr-import"), Call::List { source, cursor, .. }) => {
-            emit(ddr::list_call(&source, cursor.as_deref()))
-        }
-        (Some("mediacrawler"), Call::List { source, cursor, .. }) => {
-            emit(mediacrawler::list_call(&source, cursor.as_deref()))
-        }
         // 没有要查的本机程序，也不向平台发请求
         (_, Call::Health { .. }) => emit(Ok(FetchHealth::new(env!("CARGO_PKG_VERSION")))),
         (method, _) => emit::<()>(Err(CallFailure::new(

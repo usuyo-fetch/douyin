@@ -152,7 +152,7 @@ async fn the_manifest_loads_and_matches_douyin_links() {
     assert_eq!(plugin.id().as_str(), "usuyo-fetch/douyin");
     assert_eq!(plugin.header.version.to_string(), env!("CARGO_PKG_VERSION"));
     let spec = &plugin.spec;
-    // routes.md 第 7 节的每一行（client-hook 那行在另一个组织），加上 mediacrawler，顺序照清单
+    // routes.md 第 7 节的每一行（client-hook 那行在另一个组织），顺序照清单
     let ids: Vec<&str> = spec.methods.iter().map(|m| m.id.as_str()).collect();
     assert_eq!(
         ids,
@@ -161,10 +161,8 @@ async fn the_manifest_loads_and_matches_douyin_links() {
             "h5-token",
             "export",
             "userscript",
-            "ddr-import",
             "iphone",
-            "android",
-            "mediacrawler"
+            "android"
         ]
     );
     let share = spec.method("share-page").unwrap();
@@ -187,12 +185,6 @@ async fn the_manifest_loads_and_matches_douyin_links() {
         (Access::BrowserSession, Account::OwnBrowser)
     );
     assert!(userscript.built && userscript.delivers.is_some());
-    let ddr = spec.method("ddr-import").unwrap();
-    assert!(ddr.built && ddr.capabilities.list.is_some());
-    assert_eq!(
-        (ddr.access, ddr.login, ddr.account),
-        (Access::OfficialExport, Login::None, Account::None)
-    );
     for (id, access, account) in [
         ("export", Access::OfficialExport, Account::None),
         ("iphone", Access::VisionUi, Account::OwnPhone),
