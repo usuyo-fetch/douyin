@@ -259,7 +259,7 @@ function everyString(value, out = [], withKeys = false) {
 test("the diagnosis block is the one in the Bilibili family, and the shapes reducer is the probe's", () => {
   const here = diagBlock(text);
   let compared = 0;
-  for (const sibling of ['../../../bilibili/userscript/usuyo-bilibili-saved.user.js', '../../../xiaohongshu/userscript/usuyo-xhs-saved.user.js', '../../../x/userscript/usuyo-x-saved.user.js']) {
+  for (const sibling of ['../../../bilibili/userscript/usuyo-bilibili-saved.user.js', '../../../rednote/userscript/usuyo-xhs-saved.user.js', '../../../x/userscript/usuyo-x-saved.user.js']) {
     const url = new URL(sibling, import.meta.url);
     if (!existsSync(url)) continue;
     assert.equal(here, diagBlock(readFileSync(url, 'utf8')), sibling);
